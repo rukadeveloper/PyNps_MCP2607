@@ -132,4 +132,4 @@ company_name = st.text_input("회사명을 입력해주세요", placeholder="검
 if data and company_name:
   output = data.find_company(company_name=company_name)
   if len(output) > 0:
-    st.subheader(output.iloc[0]['사업자명'])
+    st.subheader(output.iloc[0]['사업장명'])
