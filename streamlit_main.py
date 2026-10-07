@@ -208,3 +208,15 @@ if data and company_name:
     ax[1].tick_params(axis='both', which='minor', labelsize=6)
     
     st.pyplot(fig)
+
+    st.markdown('### 동종업계')
+    df = data.get_data()
+    st.dataframe(
+      df.loc[
+        df['업종코드'] == info['업종코드'],
+        ['사업장명', '월급여추정', '연간급여추정', '가입자수']
+      ].sort_values('연간급여추정', ascending=False).head(10).round(0),
+      use_container_width=True
+    )
+  else:
+    st.subheader('검색결과가 없습니다')
