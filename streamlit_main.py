@@ -30,15 +30,7 @@ class PensionData():
     self.pattern2 = r'(\[[^)]+\])'
     self.pattern3 = r'[^A-Za-z0-9가-힣]'
     self.preprocess()
-    
-  def preprocessing(self, x):
-    x = re.sub(self.pattern1, '', x)
-    x = re.sub(self.pattern2, '', x)
-    x = re.sub(self.pattern3, ' ', x)
-    x = re.sub(' +', ' ', x)
-    return x.strip()
-    
-    
+      
   def preprocess(self):
     
     # 사업자업종코드 컬럼값이 빈 문자열인 것들은 제거
@@ -84,5 +76,45 @@ class PensionData():
     
     # 원본변경
     self.df = df
+    
+  def preprocessing(self, x):
+    x = re.sub(self.pattern1, '', x)
+    x = re.sub(self.pattern2, '', x)
+    x = re.sub(self.pattern3, ' ', x)
+    x = re.sub(' +', ' ', x)
+    return x.strip()
+    
+  # 주어진 company_name으로 검색하기
+  def find_company(self, company_name):
+    # 가입자가 많은 순으로 정렬하여 return
+    return self.df.loc[
+      self.df['사업장명'].str.contains(company_name),
+      ['사업장명', '월급여추정', '연간급여추정', '업종코드', '가입자수']
+    ].sort_values('가입자수', ascending=False)
+    
+  # 동종업계 정보(월급여추정액, 연간급여추정액) 비교
+  def compare_company(self, company_name):
+    company = self.find_company(company_name)
+    code = company['업종코드'].iloc[0]
+    df1 = self.df.loc[
+      self.df['업종코드'] == code, 
+      ['월급여추정', '연간급여추정'].agg(['mean', 'count', 'min', 'max'])
+    ]
+    df1.columns = ['업종_월급여추정', '업종_연간급여추정']
+    df1 = df1.T
+    df1.columns = ['평균', '개수', '최소', '최대']
+    df1.loc['업종_월급여추정', company_name] = company['월급여추정'].values[0]
+    df1.loc['업종_연간급여추정', company_name] = company['연간급여추정'].values[0]
+    return df1
+    
+  # 검색 기업 정보 출력
+  def company_info(self, company_name):
+    company = self.find_company(company_name)
+    return self.df.loc[company.iloc[0].name]
+    
+  def get_data(self):
+    return self.df
+
+file_path = r'https://drive.google.com/file/d/1kO8ojcPxzC_qEM1mQtp1LIEmOVsvJ688/view?usp=drive_link'
 
 st.title("국민연금 데이터 분석")
