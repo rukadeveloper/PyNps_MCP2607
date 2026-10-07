@@ -170,7 +170,7 @@ if data and company_name:
     
     st.markdown(
       f'''
-      - 업종 **평균 월급여**는 `{int(comp_output.iloc[0, 0]):,} 원입니다.
+      - 업종 **평균 월급여**는 `{int(comp_output.iloc[0, 0]):,}` 원입니다.
       - 업종 **평균 연봉**은 `{int(comp_output.iloc[1, 0]):,}` 원입니다.
       - `{company_name}` 은 평균보다 `{int(diff_month):,}원 그리고
       약 :red[약 {percent_value:.2f} %] `{upordown}`
