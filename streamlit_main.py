@@ -156,3 +156,26 @@ if data and company_name:
     
     col3.text('가입자수 추정')
     col3.markdown(f"`{int(output.iloc[0]['가입자수']):,}` 원")
+
+    comp_output = data.compare_company(company_name=company_name)
+    st.dataframe(comp_output.round(0), use_container_width=True)
+    
+    st.markdown(f'### 업종 평균 vs {company_name} 비교')
+    
+    # 검색은 회사의 월급여추정액과 업종평균을 비교
+    percent_value = info['월급여추정'] / comp_output.iloc[0, 0] * 100 - 100
+    diff_month = abs(comp_output.iloc[0, 0] - info['월급여추정'])
+    diff_year = abs(comp_output.iloc[1, 0] - info['연간급여추정'])
+    upordown = '높은' if percent_value > 0 else '낮은'
+    
+    st.markdown(
+      f'''
+      - 업종 **평균 월급여**는 `{int(comp_output.iloc[0, 0]):,} 원입니다.
+      - 업종 **평균 연봉**은 `{int(comp_output.iloc[1, 0]):,}` 원입니다.
+      - `{company_name}` 은 평균보다 `{int(diff_month):,}원 그리고
+      약 :red[약 {percent_value:.2f} %] `{upordown}`
+      `{int(info['월급여추정']):,}` 원을 **월 평균 급여**를 받는 것으로 추정됩니다.
+      - `{company_name}`은 평균보다 `{int(diff_year):,} 원 그리고 `{upordown}`
+      `{int(info['연간급여추정']):,} 원을 **연봉**을 받는 것으로 추정됩니다.
+      '''  
+    )
