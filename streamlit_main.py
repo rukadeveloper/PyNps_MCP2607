@@ -115,7 +115,8 @@ class PensionData():
   def get_data(self):
     return self.df
 
-file_path = r'https://drive.google.com/file/d/1kO8ojcPxzC_qEM1mQtp1LIEmOVsvJ688/view?usp=drive_link'
+# 구글 드라이브 '보기' 링크는 HTML 페이지이므로, CSV 원본을 바로 받는 다운로드 링크 사용
+file_path = r'https://drive.usercontent.google.com/download?id=1kO8ojcPxzC_qEM1mQtp1LIEmOVsvJ688&export=download&confirm=t'
 
 @st.cache_resource # 동일 함수 반복 호출되면 매번 실행하지 않고, 마지막으로 실행된 결과 리턴
 def read_pensiondata():
