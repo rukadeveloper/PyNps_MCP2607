@@ -128,3 +128,8 @@ data = read_pensiondata()
 st.title("국민연금 데이터 분석")
 
 company_name = st.text_input("회사명을 입력해주세요", placeholder="검색할 회사명 입력")
+
+if data and company_name:
+  output = data.find_company(company_name=company_name)
+  if len(output) > 0:
+    st.subheader(output.iloc[0]['사업자명'])
