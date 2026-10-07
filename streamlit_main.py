@@ -117,4 +117,13 @@ class PensionData():
 
 file_path = r'https://drive.google.com/file/d/1kO8ojcPxzC_qEM1mQtp1LIEmOVsvJ688/view?usp=drive_link'
 
+@st.cache_resource # 동일 함수 반복 호출되면 매번 실행하지 않고, 마지막으로 실행된 결과 리턴
+def read_pensiondata():
+  data = PensionData(file_path)
+  return data
+
+data = read_pensiondata()
+
+company_name = st.text_input("회사명을 입력해주세요", placeholder="검색할 회사명 입력")
+
 st.title("국민연금 데이터 분석")
