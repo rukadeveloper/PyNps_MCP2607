@@ -172,7 +172,7 @@ if data and company_name:
       f'''
       - 업종 **평균 월급여**는 `{int(comp_output.iloc[0, 0]):,}` 원입니다.
       - 업종 **평균 연봉**은 `{int(comp_output.iloc[1, 0]):,}` 원입니다.
-      - `{company_name}` 은 평균보다 `{int(diff_month):,}원 그리고
+      - `{company_name}` 은 평균보다 `{int(diff_month):,}`원 그리고
       약 :red[약 {percent_value:.2f} %] `{upordown}`
       `{int(info['월급여추정']):,}` 원을 **월 평균 급여**를 받는 것으로 추정됩니다.
       - `{company_name}`은 평균보다 `{int(diff_year):,} 원 그리고 `{upordown}`
